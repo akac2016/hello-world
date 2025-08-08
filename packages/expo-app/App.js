@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { supabase } from './lib/supabase';
 import * as Linking from 'expo-linking';
 import { useEffect, useState } from 'react';
-import { signInWithGithub } from 'shared/auth';
+import { signInWithGoogle } from 'shared/auth';
 
 export default function App() {
   const [session, setSession] = useState(null)
@@ -23,7 +23,8 @@ export default function App() {
   }, [])
 
   const handleLogin = async () => {
-    const url = await signInWithGithub(supabase);
+    const redirectTo = Linking.createURL('/');
+    const url = await signInWithGoogle(supabase, redirectTo);
     if (url) {
       Linking.openURL(url);
     }
@@ -54,7 +55,7 @@ export default function App() {
           <Button title="Logout" onPress={handleLogout} />
         </>
       ) : (
-        <Button title="Login with GitHub" onPress={handleLogin} />
+        <Button title="Login with Google" onPress={handleLogin} />
       )}
       <StatusBar style="auto" />
     </View>
