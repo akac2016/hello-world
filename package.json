@@ -1,7 +1,15 @@
 {
   "name": "supabase-pkce-demo",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ]
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:next -w packages/next-app\" \"npm run start -w packages/expo-app\"",
+    "dev:pkce": "concurrently \"npm run dev:pkce -w packages/next-app\" \"npm run dev:pkce -w packages/expo-app\"",
+    "dev:next": "npm run dev -w packages/next-app",
+    "dev:expo": "npm run start -w packages/expo-app"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "cross-env": "^10.0.0"
+  }
 }

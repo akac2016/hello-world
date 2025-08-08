@@ -2,24 +2,26 @@
   "name": "expo-app",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "private": true,
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "dev:pkce": "expo start --scheme supabasepkcedemo"
   },
   "dependencies": {
     "expo": "~51.0.21",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-native": "0.74.3",
-    "@supabase/supabase-js": "^2.54.0",
     "expo-linking": "~6.3.1",
     "expo-secure-store": "~13.0.2",
-    "react-native-url-polyfill": "^2.0.0"
+    "react-native-url-polyfill": "^2.0.0",
+    "shared": "file:../shared",
+    "expo-auth-session": "~5.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
-  },
-  "private": true
+  }
 }
