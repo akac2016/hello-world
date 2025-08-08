@@ -1,11 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 
-export async function signInWithGithub(supabase) {
+async function signInWithProvider(supabase, provider, options) {
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'github',
-    options: {
-      redirectTo: 'http://localhost:3000/auth/callback',
-    },
+    provider,
+    options,
   })
 
   if (error) {
@@ -14,4 +12,12 @@ export async function signInWithGithub(supabase) {
   }
 
   return data.url
+}
+
+export async function signInWithGoogle(supabase, options) {
+    return signInWithProvider(supabase, 'google', options);
+}
+
+export async function signInWithGithub(supabase, options) {
+    return signInWithProvider(supabase, 'github', options);
 }

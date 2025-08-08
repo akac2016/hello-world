@@ -1,7 +1,7 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function updateSession(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -54,13 +54,25 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  // if user is logged in and tries to access /login, redirect to home
+  if (user && request.nextUrl.pathname === '/login') {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
+  // if user is not logged in and is not trying to access a public path, redirect to /login
+  if (
+    !user &&
+    request.nextUrl.pathname !== '/login' &&
+    !request.nextUrl.pathname.startsWith('/auth')
+  ) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
 
   return response
-}
-
-export async function middleware(request: NextRequest) {
-  return await updateSession(request)
 }
 
 export const config = {
